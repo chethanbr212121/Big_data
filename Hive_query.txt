@@ -1,0 +1,204 @@
+
+show databases;
+
+create database test;
+
+use test;
+
+show tables;
+
+truncate table happiness_index;
+
+drop table happiness_index;
+
+desc happiness_index;
+
+desc extended happiness_index;
+
+show functions;
+
+create table test.emp
+(
+sno Int,
+usr_name string,
+city string)
+ROW FORMAT delimited fields terminated by ',' LINES TERMINATED BY '\n' STORED AS TEXTFILE;
+
+create table test.happiness_index
+(
+Rank Int,
+Country string,
+Happiness2021 Int,
+Happiness2020 Int,
+Population2022 Int)
+ROW FORMAT delimited fields terminated by ',' LINES TERMINATED BY '\n' STORED AS TEXTFILE;
+
+---> Loading data from linux/local path to Hive.
+--> load data local inpath '/home/chethan/Documents/Documents/ETL/ETL_PRACTICE/SQL_Practice_Data/happiness_index.csv' into table happiness_index;
+
+--> load data inpath '/data/happiness_index.csv' into table happiness_index;
+
+--> We can copy file from hdfs/local directly to default hdfs table location, by this also we can load table.
+ex: hdfs dfs -put /data/happiness_index.csv /user/hive/warehouse/test.db/
+
+--> insert into happiness_index (rank,country,happiness2021,happiness2020,population2022) values (147,'South Sudon',3.145,2.299,15331428);
+
+
+
+---> Default hive table path in hdfs.
+hdfs dfs -ls /user/hive/warehouse/
+->Our created databases store in above path
+-> Inside database tables are stored.
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+-----> Internal table and external table
+CREATE TABLE internal_table(
+Rank Int,
+Country string,
+Happiness2021 Int,
+Happiness2020 Int,
+Population2022 string)
+LOCATION 'hdfs://localhost:50000/user/hive/warehouse/internal_table';
+
+--> When we drop interna table from hive, table structure drops and data also deletes from default hive warehouse location.
+--> When we drop internal table from hive, it's metadata drops from rdbms meta store and data also deletes from default hive warehouse location.
+--> Acid table must be an internal table only.
+
+
+CREATE EXTERNAL TABLE external_table(
+Rank Int,
+Country string,
+Happiness2021 Int,
+Happiness2020 Int,
+Population2022 string)
+LOCATION 'hdfs://localhost:50000/user/hive/warehouse/external_table';
+
+--> When we drop externa table from hive, only table structure drop from hive, but data still available in default hive warehouse location.
+--> When we drop externa table from hive, only metadata drops from rdbms meta store but data still available in default hive warehouse location.
+--> It is recomended to use external for because if we drop table data will be available in hdfs.
+--> If many other teams/technology(hive/spark/pig) using same data from hdfs, In this case if we drop from hive still data pesent in hdfs for other team/technoligy usage.
+
+
+----> Why to use rdbms for metadata storage in hive.
+When we store in rdbms all nodes get table matadata informatio from rdbms and work accordingly.
+If we don't use rdbms only particular node has it's metadata information but other nodes does not have infromation about all nodes so communication will not work properly between nodes. 
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+--->Partition(Static and Dynamic).
+--> Using partition it is easy to search data based on partition otherwise search query will look for full data scan to get results.
+--> In static partition we need to specify the partition field/data.
+--> In dynamic partition no need to specify any thing hive will takecare of everything.
+--> when we create partition tabel or bucket table we can not use "load data" command to load file. If we use load data command the table will not be partitioned and bucketed. Insted we can use "insert into" or "insert overwrite" command. another way is, if we write data through progremming then we can use load because we can run map-reduce or spark through programm during loads 
+
+
+---> Static partition.
+ CREATE TABLE zipcodes_static(
+    RecordNumber int,
+    Country string,
+    City string,
+    Zipcode int)
+    PARTITIONED BY(state string)
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ',';
+    
+
+insert into table zipcodes_static partition (state=1) SELECT RecordNumber,Country,City,Zipcode from zipcodes_tmp where state=1;
+
+insert into table zipcodes_static partition (state=3) SELECT RecordNumber,Country,City,Zipcode from zipcodes_tmp where state=3;
+
+---> We can not insert bulk recodrs by inser query one by one so to copy from table first we need to create one table without partition or bucket then after we can insert into partition or bucket table easily.
+
+CREATE TABLE zipcodes_tmp(State string,RecordNumber int,Country string,City string,Zipcode int) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+
+load data inpath '/data/zipcodes20.csv' into table zipcodes_tmp;
+
+
+----> To see/check table partitions.
+show partitions zipcodes;
+
+---> Dynamic partition.
+CREATE TABLE zipcodes_dynamic(
+    RecordNumber int,
+    Country string,
+    City string,
+    Zipcode int)
+    PARTITIONED BY(state string)
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ',';
+    
+--> To insert recods to dynamic partition usually not allowed, to make it enable to insert we need to execute below command.
+set hive.exec.dynamic.partition.mode=nonstrict;
+
+insert into table zipcodes_dynamic partition (state) SELECT RecordNumber,Country,City,Zipcode,State from zipcodes_tmp where state=1;
+
+insert into table zipcodes_dynamic partition (state) SELECT RecordNumber,Country,City,Zipcode,State from zipcodes_tmp where state=3;
+
+
+
+
+
+----> Hive Buckets.
+--> In hive we have four way of table --> no partition and no bucket, partiton, partition + bucket and bucket
+--> Bucket dicides internally which data will go to which bucket but in partiton we only decides which data will go to which partition.
+---> Bucket internally uses "Hash Partition".
+---> Hash partition uses formula is (Hash of the bucketed column % number of buckets).
+---> example: assume we have 3 buckets, now divide Hash value of any one data from bucketed column by number of bucket. we will get 0,1,2 so in hdfs 3 files will be created like 0000.0, 0001.0 and 0002.0. hash value 0 will go to 0000..0, hash value 1 will go to 0001.0 and 22 will go to 0002..0 file.
+--> Usually buckets are used along with partition but in some cases there is no scope to do partition(only unique data present in table) so in this case we have to use only bucketting to avoid full table scan.
+
+
+--> To create buckets we need to run below querys.
+set hive.exec.dynamic.partition=true;
+set hive.exec.dynamic.partition.mode=nonstrict;
+set hive.enforce.bucketing=true;
+
+create table bk_test_data(
+	sno int,
+	name string,
+	amt int )
+	COMMENET 'A bucketed sorted user table' CLUSTERED BY (amt) INTO 3 BUCKETS STORED AS TEXTFILE;
+	
+---> OR
+
+create table bk_test_data(
+ sno int,
+ name string,
+ amt int )
+CLUSTERED BY (amt) INTO 3 BUCKETS STORED AS TEXTFILE;
+
+---> here comment is not necessary, it is only for understanding.
+
+insert into table bk_test_data select * from test_data;
+
+---> We can not insert bulk recodrs by inser query one by one so to copy from table first we need to create one table without partition or bucket then after we can insert into partition or bucket table easily.
+
+create table test_data(
+ sno int,
+ name string,
+ amt int )
+ROW FORMAT delimited fields terminated by ',' LINES TERMINATED BY '\n' STORED AS TEXTFILE;
+
+load data local inpath '/home/chethan/Documents/Documents/ETL/ETL_PRACTICE/SQL_Practice_Data/test_data.txt' into table test_data;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

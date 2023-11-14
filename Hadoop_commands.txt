@@ -1,0 +1,21 @@
+
+---> ALL folders path.
+cd /home/chethan/Softwares/hadoop-3.0.0/
+cd /home/chethan/Softwares/apache-hive-3.0.0-bin/
+cd /home/chethan/Softwares/spark-3.0.0-bin-hadoop2.7/
+cd /home/chethan/Softwares/sqoop-1.4.7.bin__hadoop-2.6.0/
+
+---> Start All Hadoop Related Services
+ sbin/start-all.sh
+ 
+ 
+---> Stop All Hadoop and Yarn Related Services
+ sbin/stop-all.sh
+ 
+---> To check java running process.
+jps
+
+--->
+ 
+ 
+ export HADOOP_MAPRED_HOME=/home/chethan/Softwares/hadoop-3.0.0/share/doc/hadoop-mapreduce

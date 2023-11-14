@@ -1,0 +1,30 @@
+---> Install git
+sudo apt install git
+
+---> Set user name.
+git config --global user.name "chethanbr212121"
+
+---> Set emailid.
+git config --global user.email "chethanbr212121@gmail.com"
+
+---> To check global configrations/list user name and emailid.
+git config --list
+
+---> clone repository.
+git clone https://github.com/chethanbr212121/Testing.git
+
+---> To check status.
+git status
+
+---> To add file.
+git add hello.py
+
+---> Commit file.
+git commit -m "first file push"
+
+---> Push code/file to gethub.
+git push origin main
+
+
+
+
