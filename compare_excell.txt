@@ -1,0 +1,38 @@
+---> convert excell files to csv formate.
+install unoconv in ubentu.
+unoconv -f csv second.xls
+unoconv -f csv first.xls
+
+---> compare two files and check diff.
+diff  happiness_index.csv second.csv
+
+---> To compare and check both files side by side.
+diff -y happiness_index.csv second.csv
+
+---> Some of the most useful diff options are these:
+-b	ignore white space differences
+-B	ignore blank lines
+-w	ignore all white space
+-i	ignore case differences
+-y	side-by-side
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
