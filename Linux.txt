@@ -1,0 +1,511 @@
+----Steps to find Desktop.
+pwd
+ls /mnt/
+--- shows c d e f drives.
+cd /mnt/c
+--- shows files from c drive.
+cd Users/
+--- Shows files in users.
+cd user/
+ls
+--- Shows files in user.
+cd Desktop/
+--- Shows files in Desktop.
+ls -la
+---gives details of all the files in Desktop.
+
+---OR cd /mnt/c/Users/User/Desktop
+
+---Type of files in linux.
+1. drwxrwxrwx ---> If file starts from "d" then it is directory.
+2.-rwxrwxrwx  ---> If file starts from "-" then it is file.
+
+
+Linux commands.
+
+--List files and directory's.
+1.   man ls --> to get help of "ls" command
+1.1   pwd --> Print working directory.
+2.   ls --> To list all files in a directory.
+3.1  ls -l --> Gives details of all the files and directory's in directory in the form of list.
+3.2  ls -a --> Gives all files and directory's including hidden files.
+3.3  ls -la --> Gives details of all the files, hidden files,directory's and hidden directory's in directory in the form of list.
+3.4  ls -lrt ---> Gives details of all the files and directory's in directory in the form of list in reverse order based on time(latest at bottom).
+3.5  ls -lRt ---> It list all the files and directory present in current directory and also list all sub directory files which are present in current directory and also list all sub directory files which are present in sub directory.
+
+
+--- Change directory.
+4.   cd /mnt/ --> Shows all drives.
+4.1  cd . --> current directory.
+4.2  cd .. --> Back to one previous directory(like back option).
+4.3  cd ../.. --> Back to two previous directory(like back option).
+4.4  cd -  ---> It will navigate to previous working directory.
+4.5  cd ~  ---> It will navigate to home directory.
+
+--- Create and remove  directory.
+5.   mkdir linux(folder name) --> To create new directory.
+5.1  rmdir linux --> To delete or remove directory.
+5.2  rm -rf linux -->(-rf r = recursivelly, f=forcefully) To remove directory forcefully( It is not possible to remove directory if files present in it)
+				**** we can not undo once removed by "rm -rf" so be causious while using.
+
+--- Create new file, Open, edit, copy, move and remove files.
+6.   touch text.txt(file name) --> To create new file.
+6.1  touch file.txt, file1.txt, file2.csv  ---> Create multiple files at a time.
+7.   cat >text1.txt  --> To create new file.
+8.   cat text.txt --> To open file.
+8.1  cat file.txt >file2.txt ---> To copy data from file.txt to file2.txt "but it will over write existing data in file2.txt".
+8.2  cat file.txt >>file2.txt ---> To copy data from file.txt to file2.txt "Here it will not over write, it will copy data also keep existing data in copied file".
+  
+  ---echo is used to append data into files.
+8.3  echo "How are you" >file2.csv ---> To create new file with inserting data or append data to file. 
+     ---OR echo "how are you" >file3.csv "I am fine"  ---> To create new file with inserting data  or append data to file.
+8.4  cat file.csv file2.csv file3.csv >file4.csv   ---> Merge 3 files into one file.
+8.5  cat -n file.csv --> It will return index/slno 1234 along with data including "empty line/Null also".
+8.6  cat -b file.csv --> It will return index/slno 1234 along with data, here it removes "empty lines/Null".
+8.7  cat -vte file.csv --> to see special characters(some time special characters are hidden in files).
+
+9.   nano text.txt --> To edit file.
+  --- after editing press "ctr+x" to exit, press "y" to save and "enter" to come out of file
+10.  cp text.txt new_text.txt  --> To copy and create new file.
+11.  rm new_text.txt --> To delete or remove file.
+12.  mv text.txt text11.txt  --> To rename file.
+13.  mv text.txt Linu/ --> Move file to other directory. 
+
+
+----Word count
+14   wc text.csv ---> returns number of lines, words and characters.
+14.1 wc -l text.csv  ---> Returns numbers of lines.
+14.2 wc -w text.csv  ---> Returns numbers of words.
+14.3 wc -c text.csv  ---> Returns numbers of characters.
+14.4 wc -lc text.csv  ---> Returns numbers of lines and characters.
+14.5 wc -wc text.csv  ---> Returns numbers of words and characters.
+14.6 wc text.csv, text1.csv --> returns number of lines, words and characters and also total number of lines, words and characters of multiple files.
+
+
+---Head command.
+15   head file.csv ---> It display default top 10 record.
+15.1 head -n 15 file.csv ---> It display top 15 record.
+   ---or head -10 file.csv ---> It display top 10 record.
+15.2 head -c 8 file.csv  ---> It display top 8 characters.
+15.3 head BankChurners.csv AdventureWorksCustomers.csv ---> To display top 10 records from multiple file at a time.
+15.4 head -q BankChurners.csv AdventureWorksCustomers.csv ---> To display top 10 records from multiple file at a time "with out file names" in output.
+15.5 head -v file.csv  --> Display top 10 records along with file name.
+
+---Tail command.
+16   tail file.csv ---> It display default last 10 record.
+16.1 tail -n 15 file.csv ---> It display last 15 record.
+   ---or tail -10 file.csv ---> It display last 10 record.
+16.2 tail -c 8 file.csv  ---> It display last 8 characters.
+16.3 tail BankChurners.csv AdventureWorksCustomers.csv ---> To display last 10 records from multiple file at a time.
+16.4 tail -q BankChurners.csv AdventureWorksCustomers.csv ---> To display last 10 records from multiple file at a time "with out file names" in output.
+16.5 tail -v file.csv  --> Display last 10 records along with file name.
+
+---Grep command.
+17    grep "you" file2.csv file3.csv --> Match and display matchin lines from multiple files. 
+17.1  grep -c "you" file2.csv --> To only display count of lines matches the patterns(word may present many times in single line but it only gives line count).
+17.2  grep -h "you" file2.csv --> Display matched lines but do not display the filenames.
+17.3  grep -h "you" file2.csv file3.csv |wc -l --> Display matched lines count.
+17.4  grep -i "YouR" file2.csv --> It ignores case and Display matched lines.
+17.5  grep -n "you" file2.csv --> Display the matched lines and their line numbers.
+17.6  grep -l "you" file2.csv file3.csv --> Display the file names having pattern match.
+17.61 grep -l "you" *.csv --> Display all files having searching pattern.
+17.7  grep -v "you" file2.csv --> Display the lines that "donot match" the pattern.
+17.71 grep -iv "you" file2.csv --> Display the lines that "donot match" the pattern and ignores case.
+17.8  grep -v "you" file2.csv |wc -l --> Display the lines count that "donot match" the pattern
+17.9  grep -i -e "you" file2.csv  --> we can use multiple options with "-e" option.
+     OR ---grep -v -e "you" file2.csv  --> we can use multiple options with "-e" option.
+18    grep -w "you" file2.csv --> It matches full word(no partial matching) only.
+18.1  grep -o "you" file2.csv --> It return "only matchng part" of the line.
+18.2  grep -o -n "you" file2.csv or (grep -on "you" file2.csv) --> It return "only matchng part" of the line along with line number.
+18.2  grep -i -o -n "You" file2.csv --> It ignores case return "only matchng part" of the line along with line number.
+18.3  grep -c -w "F" AdventureWorksCustomers.csv ---> Pattern matching by taking some columns having redundant data.
+18.4  grep "^I" file2.csv ---> It returns values starting from letter(here "I"). 
+18.41 grep -i "fine$" file3.csv --->It is case sensitive returns values ending with word(here "fine").
+18.5  grep "e.h" file2.csv ---> It returns a word having "e" and "." any letter and "h" at the end.
+18.6  grep -E "*m" file2.csv ---> It returns a lines having "m" in it.
+18.61 grep -E "linux (is|has)" file2.csv ---> It returns a lines having "linux is" and "linux has" in it.
+18.7  grep -f file4.csv file5.csv --> It returns keyword/pattern from a file and matches with a file.
+18.71 grep raju file4.csv file5.csv --> To search keyword from multiple files.
+18.8  grep -e ramesh -e raju file3.csv  ---> To search multiple keywords from a file.
+   or
+18.81 egrep "ramesh|ravi|suresh" file6.csv --->To search multiple keywards from a file.
+18.82 grep -e ramesh -e raju file3.csv file4.csv ---> To search multiple keywords from a multiple file.
+18.9  grep -R chethan /mnt/c/Users/User/Desktop/Linux/chethanlin  ---> return all files having that keyword in a directory.
+18.10 grep -R chethan . ---> search file in current(.) direcory.
+18.11 grep -R chethan .. ---> search file in previous(..) direcory.
+
+----> It is used in scripting.
+18.12 grep -q ramesh file6.csv ---> It will not give any result, It only perform action.
+	  echo $? ---> If above command is successfull it will give "0" otherwise it will give "1".
+	  
+18.13 grep -qs ramesh file6.c ---> I gave error/wrong file name here, If we use "-s" it will not show any error message.
+
+----> To search file using grep
+18.14 ls |grep file ---> It will give all file matching "file" name.
+
+	  
+ 
+
+---Sort command.
+--- By default sort command will sort files assumning files contents are in "ASCII".
+--- If a file contents are mixed of upper and lower case then lower case are sorted first followed by upper case letters.
+
+19   sort file4.csv ---> It will sort in ascending order.
+19.1 sort file4.csv file5.csv --> sort multiple files in ascending order.
+19.2 sort -r file4.csv --> sort in descending order. 
+19.3 sort -k 1 file6.csv --> sort first column in ascending order.
+19.4 sort -k 2n file7.csv (for numerical columns use "n" after column number) --> sort second column in ascending order.
+19.5 sort -r -k  1 file6.csv ---> sort first column in reverse(descending) order.
+19.6 sort -u file4.csv ---> sort in ascending order and "return only Distinct records".
+19.7 sort -M file7.csv ---> sort ascending by Month.
+19.8 sort -r -M file7.csv ---> sort descending by Month.
+19.9 sort file4.csv > file_new.csv --> To copy sorted data into new file.
+    ---OR sort -o file4.csv file_new.csv.
+20.1  sort -u file4.csv ---> Return distinct values only.
+ 
+
+
+
+---Uniq command.
+---Before performing "uniq" sort the records.
+20   sort file4.csv|uniq  --> Returns only unique/distinct record.
+20.1 sort file4.csv|uniq -c  --> Returns unique/distinct record and their count(how many times a record is repeating).
+20.2 sort file4.csv|uniq -d  --> Returns only "Duplicate" records.
+
+
+
+---Find command.
+20.3  find . -name emp.csv --> To find file name.
+20.31 find . -iname emp.csv --> To find file name by ignoring case sensitive.
+20.4  find .  -name *.csv ---> Return all .csv file names.
+20.5  find . -not -name *.csv ---> Returns file other than .csv files.
+20.6  find . -name "new_file.txt" -exec rm -i {} \; ---> first it will find file name and delete. 
+      "-i {}" this command will ask permission to delete, if we give "n" it will not delete, if we give "y" it will delete file.
+20.7  find . -empty ---> It will return empty file/directory name and it's path.
+20.8  find . -name "text11.txt" -exec cp {} ./chethanlin \; --> It will find "text11.txt" file 	 
+20.9  find . -type f -exec grep -l "you" {} \; ---> To find pattern "you" in files. It return all the file names having "you" in it.
+20.10 find . -name ".*" ---> To find all the hidden files.
+20.11 find . -cmin -60 ---> To find files modified in last one hour.
+20.12 find . -mtime -60 --> To find files modified in last 60 days.
+20.13 find . -size +10M --> To find files grater than 10MB size.
+20.14 find . -size +1000M -exec rm {}\; ---> To remove files grater than 1000MB.
+20.15 -o --> It is use as "or".
+20.16 \( --> here "\" is used to ignore special characters  like (),{},[],& etc.
+20.17 find . \(-name "emp1.php" -o -name "emp.doc"\); --> It is used to find multiple files.
+20.18 find . \(-name "emp1.php" -o -name "emp.doc"\) -exec rm {} \; --> It is used to find multiple files and delete them.
+
+
+
+---Copy command.
+21   cp text_new.txt chethanlin/ ---> It will copy to target directory whic is specified only in forward dirctory, It will not copy backwards.
+21.1 cp text_new.txt test/new_text.text ---> It will copy to new directory with our specified file name.
+
+
+
+
+
+
+----Unix from "ETL QA labs".
+1.   whoami ---> Returns user name.
+2.   who ---> Returns list of users who are logged in.
+3.   ctr+d ---> To exit and come out to original position.
+4.   cat file8.csv
+	eid,ename,salary
+	1,chethan,5000
+	2,ramesh,3000
+	3,suresh,4500 (ctr+d)  ---> To create file.
+5.   cat >>file8.csv
+	4,ravi,6000
+	5,rgahu,5500
+	6,mahesh,6000
+	7,chandan,3500
+	8,kallesh,4500
+	9,kumar,2500 (ctr+d)  ---> To append data into file.
+6.    grep -in "chethan" file4.csv --> Returns case sensitive matching patterns lines along with line numbers.   
+7.    grep -l "you" *.csv --> Display all files having searching pattern. 
+8.    grep -e"you" -e"am" file3.csv  ---> To search multiple patterns.
+9.    grep -E "linux (is|has)" file2.csv ---> It returns a lines having "linux is" and "linux has" in it.
+10.   grep -iE "linux (is|has)" file2.csv ---> It will ignore case sensitiveand returns a lines having "linux is" and "linux has" in it.
+11.   grep -A2 Ellen emp.csv --> It will returns another 2 lines after the pattern matching line.
+12.   grep -B2 Ellen emp.csv --> It will returns another 2 lines before the pattern matching line.
+13.   grep -C2 Ellen emp.csv --> It will returns another 2 lines before and after the pattern matching line.
+14    grep -i "fine$" file3.csv --->It is case sensitive returns values ending with word(here "fine").
+15    grep -i "^how" file3.csv --->It is case sensitive returns values starting with word(here "how").
+16    grep -ic "^how" file3.csv ---> Returns count of all lines starting with "how".
+  --- OR grep -i "^how" file3.csv | wc -l.
+17    cat emp.csv | grep "David" ---> Return pattern matching from emp.csv
+18    cat emp.csv | grep "David" |wc -l  ---> Return count of pattern matching from emp.csv
+
+
+
+
+---- usefull commands.
+1.0   echo $SHELL ---> To check which shell we are working in (here it is /bin/bash)
+2.0	  ----There are many shells in linux are  Bash, Cshell etc.
+3.0   ( which pwd or which ls) these commands give library of particular commands.
+4.0   cat emp.csv | head -20 | tail -10 ---> Returns rows 10 to 20.
+
+    ----Find 5th highest salary.
+5.0   cat employee.csv| sort -t"," -nrk 8 --->> sort employee table based on salary column.
+	      ---Here -t"," is used to tell comma is a column seperator/delimitter and "-nrk 8" is "-n" sort based on number, "-r" sort in descending order, "-k 8" indicate sort 8th column.
+5.1   cat employee.csv| sort -t"," -nrk 8| cut -d"," -f8 ---> here we cut(selected) salary column only.
+	      ---Here "cut" meand cutting -d"," means delimitter "," and "-f8" means field 8.
+5.2   cat employee.csv| sort -t"," -nrk 8| cut -d"," -f8| uniq |head -5  ---> It removes duplicate and gives top 5 salarys.
+		--- Here It removes duplicate and gives only top 5 records.
+5.3   cat employee.csv| sort -t"," -nrk 8| cut -d"," -f8| uniq |head -5|tail -1 ---> Finaly returns 5th highest salary.
+	---- Find how many uniq and duplicate records present.
+6.1	  cat employee.csv| uniq -d|wc -l ---> To check duplicate records.
+6.2   cat employee.csv| uniq -u|wc -l ---> To chech uniq records.
+
+
+
+----ETL Testing.
+1.0   cat employee.csv|wc -l ---> To check number of rows.
+1.1	  cat employee.csv| sort |uniq -d|wc -l ---> To check duplicate records.
+1.2   cat employee.csv| sort |uniq -u|wc -l ---> To chech uniq records.
+1.3   cat employee.csv| sort |uniq -c --> It will return numbers in first column like( uniq are 1 and duplicates are 2,3...) how many times a record present
+2.0   cat employee.csv| sort -t"," -nrk8 --->> sort employee table based on salary column in descending order.
+2.1   cat employee.csv| sort -t"," -nk8 --->> sort employee table based on salary column in ascending order.
+3.0   cat employee.csv| sort -t"," -k2 --->> sort employee table based on first_name column in ascending order.
+3.1   cat employee.csv| sort -t"," -rk2 --->> sort employee table based on first_name column in descending order.
+4.0   cat employee.csv|cut -d"," -f3 ---> Select a particular column.
+5.0   cat employee.csv| cut -d"," -f2| grep "Michael" ---> To find word "Michael" in first_name / 2nd column.
+5.1   cat employee.csv| cut -d"," -f2| grep -n  "Michael" --> To find word "Michael" in first_name / 2nd column with line number.
+5.2   cat employee.csv| cut -d"," -f2| grep -c  "Michael" --> Display count of lines matching the pattern.
+5.3   cat employee.csv| cut -d"," -f2| grep '[A-D]' ---> display words having "A" to "D" in them.
+ --OR cat employee.csv| cut -d"," -f2| grep '[ABCD]' ---> display words having "A" to "D" in them.
+
+6.0   cat employee.csv| sort -t"," -k2| cut -d"," -f2| uniq -u|wc -l ---> Return only "uniq" records present in 2nd column/first_name.
+ --Here we sort column 2nd and then cut 2nd column from file then we remove duplicates and finally get line count.
+6.1   cat employee.csv| sort -t"," -k2| cut -d"," -f2| uniq -d|wc -l---> Return only "Duplicate" records present in 2nd column/first_name.
+6.3   cat employee.csv| sort -t"," -k2| cut -d"," -f2| uniq -c|wc -l---> Return records present in 2nd column/first_name with line numers like for uniq records "1" and for duplicates other than "1".
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+1.0  whoami-----> To check user name.
+2.0  ip address----> Gives ip address to connect to putty.Here use 192.168.43.224
+3.0  cd / ----> root directory.
+4.0  whereis ls----> It shows "ls" command path(In lenux every thing is file, even commands also).
+5.0  cd /usr/bin/-----> All linux commands present in this directory.
+6.0  cd ~  ---> It will navigate to home directory.
+7.0  find  -name emp.csv --> To find file name.
+7.1  find  -iname emp.csv --> To find file name by ignoring case sensitive.
+7.2  find  -name *.csv ---> Return all .csv file names.
+7.3  find  -not -name *.csv ---> Returns file other than .csv files.
+7.4  find chethanlin/test/ -iname *.csv  ----->Here It will search in particular path(we need to mention full path) mentioned(chethanlin/test/).
+8.0  rm -r file.txt -----> To remove file/directory.
+9.0  ls --help ---->to get help regarding particular command
+10.0 man ls ---> to get help regarding particular command in description formate.
+------------------------------------------------------------------------------------------------------------------------------
+---->edit file.
+11.0   vi file3.txt ---> It will open file, 
+	  i ----> Press "i" It will show insert at below means we can edit file (If already "Replace" present below press esc key and then press "i"),
+	  press esc key to come out from insert,
+	  :wq ----> To save and exit.  (:q! ---> it will only exit).
+-------------------------------------------------------------------------------------------------------------------------------
+12.0   su -  ---> To change user (enter password we can change user).
+13.0   diff text11.txt text_new.txt  ---> It will gives differences between file1 and fil2. Here it will also shows which line has differences.
+
+----> To compress and zip
+14.0   tar cvf file.tar text11.txt text_new.txt ----> To make tar file(here "file.tar" is tar file name).
+	  gzip file.tar ----> Now file.tar will become zip file(file.tar.gz) with compressed size.
+	  
+----> To decompress and unzip	  
+15.0   gunzip file.tar.gz ----> It will unzip file "file.tar.gz" to file.tar.
+	  tar xvf file.tar ---->It will untar "file.tar" and we can now see text11.txt text_new.txt files in folder.
+   
+-----> Combine two file into single file.
+16.0   cat text11.txt text_new.txt > combin.txt 
+
+----> To split single file into multiple files based on number of "lines"
+17.0  split -l 3 combin.txt  ---> Here combin.txt has 7 line, It will split 7 lines into 3 file(xaa,xab,xac) of(3,3,1)lines.
+
+----> less command to see big files content in the form of word/pdf file and we can scroll down.
+18.0  less file.txt ---> Press "shift+G to go to end", 
+							press "p" to go to file starting
+								/ramesh to search "ramesh" word and if we have many ramesh names to go forward press "n".
+									press "q" to exit.
+						
+----> Search particular word in file.
+19.0  cat file.txt | grep ramesh
+19.1  cat file.txt | grep -i ramesh ---> To ignore case sensitivity.
+
+------------------------------------------------------------------------------------------------------------------------------
+-----> VI editor commands.
+20.0  vi textfile.txt
+i ---> Insert
+O ---> Insert on next line.
+a ---> It will Insert any word after the space.
+esc ---> escpe out of any mode.
+:q! ---> quit without saving.
+:wq! ---> quit and save.
+R ---> replace.
+d ---> delete.(press "d" two times).It will delete full line.
+u ---> undo.
+x ---> remove one character.
+/ ---> forward search.(press "n" to go forward)
+? ---> backward search.
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+----> find command.
+Symtax: find /path/ -name <file_name>
+21.0  find -name TrailadventureWorksCustomers.csv
+21.1  find . -name TrailadventureWorksCustomers.csv ---> Here "." means present location.
+
+---> To find only files or only directory in a given path.
+("f" for file, "d" for directory, "l" for symbolic link, "b" for block device, "s" for  socket).
+21.2  find . -type f -name myfile ---> here "f" means file. It will only search file.
+21.21 find . -type f -iname myfile ---> "-i" ignores case sensitivity.
+21.3  find . -type d -name myfile ---> here "d" means directory. It will only search directory.
+21.31 find . -type d -iname myfile ---> "-i" ignores case sensitivity.
+21.30 find . -type d   ---> gives only directory present in a path.
+21.31 find . -type l 
+
+---> search a file based on their size.("M" for "MB", "k" for "KB", "G" for "GB", "c" for "bytes").
+21.4  find . -size 48M  ---> To search 48 MB file.
+21.41 find . -size 4096c ---> To search 4096 bytes file.
+
+---> To search file whose size are between some range.
+syntax: find /path/ -size +1M -size -50M
+21.42 find . -size +1M -size -20M
+
+
+----> To search file for a given user only.
+synta: find /path/ -user root.
+21.5   find . -user chetu.
+
+----> To search a file based on their permissions.
+syntax : find /path/ -perm /u=r   or find /path/ -perm 777
+21.6  find . -perm 777 ---> finding files having all permissions.
+21.61 find . -perm /u=x  ---. finding files having executable permission.
+21.62 find . -perm /u=r  ---. finding files having read permission.
+
+---> To search file which starts with letter "any letter".
+21.7  find . -iname "a*" ---> ignore case and search file starts with "A".
+
+---> To search all the files which are modified/created after file3.csv file.
+syntax: find /path/ -newer file3.csv
+21.8 find . -newer file3.csv
+
+---> To search all the empty files ia a given dirctory.
+syntax: find /path/ -empty
+21.9  find . -empty 
+
+----> To search all the empty files ia a given dirctory and delete them.
+syntax: find /path/ -empty -exec rm {} \;
+21.10  find . -empty -exec rm {} \;
+
+---> To find file by name and delete that file.
+21.11  find . -name text123.txt -exec rm {} \;
+
+---> To search 15 days old files or search file between any range.
+syntax: find /path/ -mtime 15
+21.12  find . -mtime 15
+21.13  find . -mtime +5 -mtime -150  ---> find files between 5 to 150 days old.
+     or
+	   find /mnt/c/Users/User/Desktop/Linux/chethanlin -mtime +200 -mtime -365
+	   
+----> To search largesr file in a given directory.
+---> using "find" command.
+step 1: find . -type f  ---> To find file. (Here if gives all files like file inside other directory also)
+step 2: find . -maxdepth 1 -type f  ---> (Here it will give only current directory files).
+step 3: find . -maxdepth 1 -type f -exec ls -lh {} \; ---> It will give all file in detailed formate(not just file name).
+****Here "h" means "human readable formate".
+step 4: find . -maxdepth 1 -type f -exec ls -lh {} \; | sort -k5rh ---> sort based on "h".(-k5rn ( "n" based on number )will not give better result)
+step 5: find . -maxdepth 1 -type f -exec ls -lh {} \; | sort -k5rh | head -1 ---> To show top one file 
+step 6: find . -maxdepth 1 -type f -exec ls -lh {} \; | sort -k5rh | head -1 | awk '{print $NF}'  ---> to print file name.
+
+---> using "du" command. (here problem is it will give all files and directory also)
+step1: du -sh *
+step2: du -sh * | sort -rh 
+step3: du -sh * | sort -rh | head -2
+
+----> Using "ls"
+ls -lSh  ---> some limitations are there.
+
+
+
+
+-----> PS command "Process state"
+22.0  ps ---> It will give all running process.
+			PID means process id, TTY means terminal type, Time means CPU utilisation time.
+22.1  ps -A ---> It will gaive all running process and commands.
+22.2  ps -C firefox ---> It will give details about firefox process.
+22.3  ps -U chetu ---> This will gives all the process used by user chetu.
+22.4  ps -aux ---> It will gives more details about all the running process.
+22.5  ps -f | grep chetu  ---> usage of grep along with ps.
+
+ 
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------
+---------> Installation commands.
+sudo apt install firefox  ---> To Install firefox.
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+---> To check storage
+df -h  
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+---->text diting in linux.
+
+vi <filename> — Open or edit a file.
+i — Switch to Insert mode.
+Esc — Switch to Command mode.
+:w — Save and continue editing.
+:wq or ZZ — Save and quit/exit vi.
+:q! — Quit vi and do not save changes.
+yy — Yank (copy) a line of text.
+p — Paste a line of yanked text below the current line.
+o — Open a new line under the current line.
+O — Open a new line above the current line.
+A — Append to the end of the line.
+a — Append after the cursor’s current position.
+I — Insert text at the beginning of the current line.
+b — Go to the beginning of the word.
+e — Go to the end of the word.
+x — Delete a single character.
+dd — Delete an entire line.
+Xdd — Delete X number of lines.
+Xyy — Yank X number of lines.
+G — Go to the last line in a file.
+XG — Go to line X in a file.
+gg — Go to the first line in a file.
+:num — Display the current line’s line number.
+h — Move left one character.
+j — Move down one line.
+k — Move up one line.
+l — Move right one character.
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+To know computer 64 bit or 32 bit
+----> uname -a
+
+
+
+---> Change owner of file/directory.
+chown chethan /home/chethan/Documents/Coding/Jenkins/Practice_files
+
+
+
+
+
+
+
+
+
+
+
+
