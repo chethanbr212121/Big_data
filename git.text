@@ -10,6 +10,9 @@ git config --global user.email "chethanbr212121@gmail.com"
 ---> To check global configrations/list user name and emailid.
 git config --list
 
+---> To start git from terminal.
+git init
+
 ---> clone repository.
 git clone https://github.com/chethanbr212121/Testing.git
 
@@ -24,6 +27,42 @@ git commit -m "first file push"
 
 ---> Push code/file to gethub.
 git push origin main
+
+---> To list Recent commit/changes details and commit code.
+git log
+
+---> To find recent change or differences using commit code.
+git diff 7d3db8fe82a9b79630ba21820757ab088d22a919   
+or 
+git diff <Commit code> 
+*** Press "q" to exit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

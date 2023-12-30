@@ -22,3 +22,43 @@
  spark.sql("INSERT OVERWRITE TABLE zipcodes PARTITION(state) SELECT RecordNumber,Country,City,Zipcode,State from  zipcodes_tmp")
 
 
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+----> Read CSV file.
+--> ap_csv_data_3 = spark.read.format("csv").load(path="hdfs://localhost:50000/chetu/AdventureWorksCustomers.csv", header=True, sep="," , InferSchema=True)
+
+--> df_1 = spark.read.format("csv").option("header",True).load(path="hdfs://localhost:50000/chetu/AdventureWorksCustomers.csv")
+
+--> df_1 = spark.read.format("csv").option("header",True).option("Inferschema", True).load(path="hdfs://localhost:50000/chetu/AdventureWorksCustomers.csv")
+
+--> df_1 = spark.read.format("csv").option("header",True).option("Inferschema", True).option("sep",",").load(path="hdfs://localhost:50000/chetu/AdventureWorksCustomers.csv")
+
+--> df_2 = spark.read.format("csv").options(header="True", Inferschema="True", sep=",").load(path="hdfs://localhost:50000/chetu/AdventureWorksCustomers.csv")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

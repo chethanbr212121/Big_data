@@ -19,3 +19,154 @@ jps
  
  
  export HADOOP_MAPRED_HOME=/home/chethan/Softwares/hadoop-3.0.0/share/doc/hadoop-mapreduce
+ 
+ ---> list files.
+ hdfs dfs -ls /    or hdfs dfs -ls /data/
+ 
+ ---> Check storage.
+ hdfs dfs -df -h
+ 
+ --> Size of all directory/files.
+ hdfs dfs -du -h /data/  or hdfs dfs -du -h /
+ 
+ 
+ --> Overall size of directory in single line.
+ hdfs dfs -du -h -s /
+ 
+ 
+ ---> Create directory.
+ hdfs dfs -mkdir /data/
+ 
+ 
+ ---> Copy files from unix to hdfs.
+ hdfs dfs -put /home/chethan/Documents/Documents/ETL/ETL_PRACTICE/SQL_Practice_Data/AdventureWorksCustomers.csv /data/
+ hdfs dfs -copyFromLocal /home/chethan/Documents/Documents/ETL/ETL_PRACTICE/SQL_Practice_Data/AdventureWorksCustomers.csv /data/
+
+
+ ---> Copy files from hdfs to Unix.
+ hdfs dfs -copyToLocal /data/chetu.txt /home/chethan/Desktop/
+ hdfs dfs -get /data/chetu.txt /home/chethan/Desktop/
+ 
+ 
+ ---> To Copy file from hdfs to hdfs.
+ hdfs dfs -cp /data/chetu.txt /chetu/
+ 
+ ---> Move files from hdfs to hdfs.
+ hdfs dfs -mv /data/names.csv /chetu/
+ 
+ 
+ --->Remove file from hdfs.
+ hdfs dfs -rm /chetu/names.csv
+ 
+ 
+ ---> Remove directory from hdfs.
+ hdfs dfs -rm -r /times
+  hdfs dfs -rm -r -skipTrash /times   ---> To avoid files moving to trash.
+ 
+ 
+ ---> To see file content.
+ hdfs dfs -cat /data/AdventureWorksCustomers.csv
+ --> Tail
+ hdfs dfs -cat /data/AdventureWorksCustomers.csv | tail -10
+ -->Head
+ hdfs dfs -cat /data/AdventureWorksCustomers.csv | head -10
+ 
+ 
+ ---> To see only speccified directory and it's details.
+ hdfs dfs -ls -d /data
+ 
+ 
+ ---> To create file in hdfs path.
+ hdfs dfs -touchz /data/chetu.txt  
+ 
+ 
+ 
+ --->To change replicaion(How many copy stored in hdfs clusters) factor of any files/directory.
+ hdfs dfs -setrep 2 /data/chetu.txt  ---> Files
+ hdfs dfs -setrep 2 /chetu/  ---> Directory.
+ 
+ 
+ ---> To find configrations.
+ hdfs getconf --> It will list all configration details.
+ 
+ --> Name node list.
+ hdfs getconf -namenodes
+ 
+ -->secondaryNameNodes list.
+ hdfs getconf -secondaryNameNodes
+ 
+ etc...
+ 
+ 
+ --->find files or directory.
+ hdfs dfs -find / -iname chetu
+ hdfs dfs -find / -name "*.csv"
+ 
+ 
+ ---> Permission to hdfs files/directory.
+ --> Change owner.
+ hdfs dfs -chown jenkins /chetu/
+ hdfs dfs -chown -R jenkins /chetu/  ---> To change owner to all folders and files inside(-R recursive change).
+ 
+  
+ --> Change group.
+ hdfs dfs -chgrp jenkins /chetu/
+ hdfs dfs -chgrp -R jenkins /chetu/  ---> To change group to all folders and files inside (-R recursive change).
+ 
+ ---> Give all permission.
+ hdfs dfs -chmod 777 /chetu/
+ hdfs dfs -chmod  -R 777 /chetu/   ---> To change permission to all folders and files inside (-R recursive change).
+ 
+ 
+---> Number of files, directory and  size,
+hdfs dfs -count -h /data
+
+
+ ---> To find file exist or not.
+ hdfs dfs -test -f /data/AdventureWorksCustomers.csv
+ echo $?
+ If echo returns "0" means file exist/command successfull "1" means not exist/command failed.
+ 
+ 
+ ---> To find directory exist or not.
+ hdfs dfs -test -d /data/
+ echo $?
+ If echo returns "0" means directory exist/command successfull "1" means not exist/command failed.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
